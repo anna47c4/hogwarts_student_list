@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Hacked Hogwarts student-list</title>
+  </head>
+  <body>
+    <!-- header w. headline -->
+    <header class="title">
+      <h1 class="headline">Hogwarts student data 2022</h1>
+    </header>
+    <!-- nav w. filter options in a select 'menu' -->
+    <nav id="filter-options">
+      <select id="filter-type">
+        <option value="none" selected disabled hidden>
+          Filter the students
+        </option>
+        <option
+          value="All"
+          class="filter-type"
+          data-action="filter"
+          data-filter="All"
+        >
+          Show all students
+        </option>
+        <option
+          value="Gryffindor"
+          class="filter-type"
+          data-action="filter"
+          data-filter="Gryffindor"
+        >
+          Gryffindor
+        </option>
+        <option
+          value="Ravenclaw"
+          class="filter-type"
+          data-action="filter"
+          data-filter="Ravenclaw"
+        >
+          Ravenclaw
+        </option>
+        <option
+          value="Slytherin"
+          class="filter-type"
+          data-action="filter"
+          data-filter="Slytherin"
+        >
+          Slytherin
+        </option>
+      </select>
+      <!-- the search bar is made with a input field  -->
+      <input type="text" id="search-field" placeholder="🔍" />
+    </nav>
+    <!-- the number-info, is the lists current status w. students etc -->
+    <div id="number-info">
+      <p id="current-students">There is x students displayed</p>
+      <p id="more-info">See more student-list details</p>
+    </div>
+
+    <!-- here comes the list with the properties, plus it's the one for sorting  -->
+    <table id="list">
+      <thead>
+        <tr id="sorting">
+          <th
+            data-action="sort"
+            data-sort-direction="asc"
+            data-sort="firstName"
+          >
+            Firstname
+          </th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="lastName">
+            Lastname
+          </th>
+          <th
+            data-action="sort"
+            data-sort-direction="asc"
+            data-sort="middleName"
+          >
+            Middlename
+          </th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="nickName">
+            Nickname
+          </th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="image">
+            Image / filnename
+          </th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="House">
+            House
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- student template w. data will be cloned and inserted here -->
+      </tbody>
+    </table>
+
+    <!-- the template we use to dislay the student data -->
+    <template id="student">
+      <tr>
+        <td data-field="firstName">Firstname</td>
+        <td data-field="lastName">Lastname</td>
+        <td data-field="middleName">Middlename</td>
+        <td data-field="nickName">NickName</td>
+        <td data-field="house">House</td>
+      </tr>
+    </template>
+    <!-- the student popup -->
+    <div id="student-details" class="model hide">
+      <div class="dialog">
+        <button class="close-button">❌</button>
+        <img src="*" class="crest" alt="house crest" />
+        <img src="*" class="student-pic" alt="student photo" />
+        <!-- the data about the individual clicked student -->
+        <div id="detail-wrapper">
+          <!-- span tag for manipulating the individual student name in to the string -->
+          <p>Name: <span id="fullname"></span></p>
+          <p>Nickname: <span id="nickname"></span></p>
+          <p>Prefect: <span id="prefect"></span></p>
+          <p>Expelled: <span id="expelled"></span></p>
+          <p>Bloodstatus: <span id="bloodstatus"></span></p>
+          <p>Squadmember: <span id="squadmember"></span></p>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
