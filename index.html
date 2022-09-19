@@ -96,17 +96,6 @@
         <!-- student template w. data will be cloned and inserted here -->
       </tbody>
     </table>
-
-    <!-- the template we use to dislay the student data -->
-    <template id="student">
-      <tr>
-        <td data-field="firstName">Firstname</td>
-        <td data-field="lastName">Lastname</td>
-        <td data-field="middleName">Middlename</td>
-        <td data-field="nickName">NickName</td>
-        <td data-field="house">House</td>
-      </tr>
-    </template>
     <!-- the student popup -->
     <div id="student-details" class="model hide">
       <div class="dialog">
@@ -125,6 +114,16 @@
         </div>
       </div>
     </div>
+    <!-- the template we use to dislay the student data -->
+    <template id="student">
+      <tr>
+        <td data-field="firstName">Firstname</td>
+        <td data-field="lastName">Lastname</td>
+        <td data-field="middleName">Middlename</td>
+        <td data-field="nickName">NickName</td>
+        <td data-field="house">House</td>
+      </tr>
+    </template>
     <script src="script.js"></script>
   </body>
 </html>
