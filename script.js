@@ -83,8 +83,8 @@ function getCleanData(student) {
 function splitFullName(fullname) {
   //storing all the names in a obj. and putting default values to those without middle/nicknames
   const nameObj = {
-    nickName: "noName",
-    middleName: "noName",
+    nickName: "🚫",
+    middleName: "🚫",
   };
   //storing the json fullname, in a names const, and then trim for spaces, and split w. space
   const names = fullname.trim().split(" ");
@@ -107,7 +107,7 @@ function splitFullName(fullname) {
   });
   return nameObj;
 }
-
+//cleaning, removing spaces, "", solving "-", etc.
 function cleanTheData(data) {
   let replaceSymbols = data.replaceAll('"', "");
   const cleanHyphen = replaceSymbols.indexOf("-");
@@ -127,7 +127,7 @@ function cleanTheData(data) {
     .slice(1)
     .toLowerCase()}`;
 }
-
+//"helper function", cleaning container + calling displayStudent
 function displayList() {
   //make sure the list is cleared
   document.querySelector("#list tbody").innerHTML = "";
@@ -135,7 +135,7 @@ function displayList() {
   //build a new list w. the clean data
   allCleanStudents.forEach(displayStudent);
 }
-
+//displaying the students
 function displayStudent(student) {
   //create clone
   const clone = document
@@ -158,7 +158,7 @@ function displayStudent(student) {
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 }
-
+//student pop-up
 function studentDetails(specificStudent) {
   //remove the hide class
   document.getElementById("student-details").classList.remove("hide");
