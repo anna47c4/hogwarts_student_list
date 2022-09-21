@@ -6,6 +6,15 @@ let allStudents = [];
 
 //cleaned version student array that I end up displaying
 let allCleanStudents = [];
+//other variables
+let filter;
+let sort;
+let houseSelected;
+let selectedStatus;
+
+let houseFilter = document.querySelector("#filter-type");
+let sortItems = document.querySelectorAll("[data-action=sort]");
+/* console.log(sortItems); */
 
 //down here is the object prototype that I create the student obj. from
 const Student = {
@@ -19,6 +28,11 @@ const Student = {
 
 function start() {
   console.log("here we go, cleaning up!");
+  //eventListeners for filter & sort
+  houseFilter.addEventListener("change", checkFilter);
+  sortItems.forEach((sortItem) => {
+    sortItem.addEventListener("click", checkSort);
+  });
 
   fetchJSON();
 }
@@ -49,6 +63,70 @@ function prepareObject(jsonObj) {
 
   return student;
 }
+function checkFilter(event) {
+  /*   filter = event.target.dataset.filter; */
+  houseSelected = houseFilter.selectedIndex;
+
+  const filteredStudents = filterStudents();
+  displayList(filteredStudents);
+}
+//filter by house cases
+function filterStudents() {
+  let filteredStudents = [];
+
+  switch (houseSelected) {
+    case 1:
+      filterStudents = allCleanStudents.filter(isAll);
+      break;
+    case 2:
+      filterStudents = allCleanStudents.filter(isGryffindor);
+      break;
+    case 3:
+      filterStudents = allCleanStudents.filter(isSlytherin);
+      break;
+    case 4:
+      filterStudents = allCleanStudents.filter(isHufflepuff);
+      break;
+    case 5:
+      filterStudents = allCleanStudents.filter(isRavenclaw);
+      break;
+  }
+  return filteredStudents;
+}
+
+//isHouse functions
+function isHufflepuff(student) {
+  if (student.house === "hufflepuff" || student.house === "Hufflepuff") {
+    return true;
+  } else {
+    return false;
+  }
+}
+function isGryffindor(student) {
+  if (student.house === "gryffindor" || student.house === "Gryffindor") {
+    return true;
+  } else {
+    return false;
+  }
+}
+function isSlytherin(student) {
+  if (student.house === "slytherin" || student.house === "Slytherin") {
+    return true;
+  } else {
+    return false;
+  }
+}
+function isRavenclaw(student) {
+  if (student.house === "ravenclaw" || student.house === "Ravenclaw") {
+    return true;
+  } else {
+    return false;
+  }
+}
+function isAll(student) {
+  return true;
+}
+function checkSort() {}
 
 /* STORING THE CLEAN DATA & PUSHING TO GLOBAL STUDENT ARRAY */
 function cleanStudentData(students) {
