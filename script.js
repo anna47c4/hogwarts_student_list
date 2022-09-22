@@ -6,15 +6,15 @@ let allStudents = [];
 
 //cleaned version student array that I end up displaying
 let allCleanStudents = [];
-//other variables
-let filter;
-let sort;
-let houseSelected;
-let selectedStatus;
+//array for filtered students
+let filteredStudents = [];
+//other variables stored in an object
+let settings = {
+  filterBy: "All",
+};
 
-let houseFilter = document.querySelector("#filter-type");
-let sortItems = document.querySelectorAll("[data-action=sort]");
-/* console.log(sortItems); */
+const houseFilter = document.getElementById("filter-type");
+/* const sortItems = document.querySelectorAll("[data-action=sort]"); */
 
 //down here is the object prototype that I create the student obj. from
 const Student = {
@@ -30,9 +30,6 @@ function start() {
   console.log("here we go, cleaning up!");
   //eventListeners for filter & sort
   houseFilter.addEventListener("change", checkFilter);
-  sortItems.forEach((sortItem) => {
-    sortItem.addEventListener("click", checkSort);
-  });
 
   fetchJSON();
 }
@@ -63,71 +60,52 @@ function prepareObject(jsonObj) {
 
   return student;
 }
+//checking which option is chosen, and setting that value
 function checkFilter(event) {
-  /*   filter = event.target.dataset.filter; */
-  houseSelected = houseFilter.selectedIndex;
-
-  const filteredStudents = filterStudents();
-  displayList(filteredStudents);
+  const filter = houseFilter[houseFilter.selectedIndex].value;
+  console.log("filter: ", filter);
+  setFilter(filter);
+}
+//storing the chosen filter in the filterBy
+function setFilter(filter) {
+  settings.filterBy = filter;
+  buildList();
 }
 //filter by house cases
-function filterStudents() {
-  let filteredStudents = [];
-
-  switch (houseSelected) {
-    case 1:
-      filterStudents = allCleanStudents.filter(isAll);
+function filterStudents(filteredStudents) {
+  switch (settings.filterBy) {
+    case "All":
+      filteredStudents = allCleanStudents.filter(isAll);
       break;
-    case 2:
-      filterStudents = allCleanStudents.filter(isGryffindor);
-      break;
-    case 3:
-      filterStudents = allCleanStudents.filter(isSlytherin);
-      break;
-    case 4:
-      filterStudents = allCleanStudents.filter(isHufflepuff);
-      break;
-    case 5:
-      filterStudents = allCleanStudents.filter(isRavenclaw);
+    case "Gryffindor":
+    case "Ravenclaw":
+    case "Hufflepuff":
+    case "Slytherin":
+      filteredStudents = allCleanStudents.filter(function (student) {
+        return checkHouse(student, settings.filterBy);
+      });
       break;
   }
   return filteredStudents;
 }
 
-//isHouse functions
-function isHufflepuff(student) {
-  if (student.house === "hufflepuff" || student.house === "Hufflepuff") {
+function checkHouse(student, house) {
+  if (student.house === house) {
     return true;
   } else {
     return false;
   }
 }
-function isGryffindor(student) {
-  if (student.house === "gryffindor" || student.house === "Gryffindor") {
-    return true;
-  } else {
-    return false;
-  }
-}
-function isSlytherin(student) {
-  if (student.house === "slytherin" || student.house === "Slytherin") {
-    return true;
-  } else {
-    return false;
-  }
-}
-function isRavenclaw(student) {
-  if (student.house === "ravenclaw" || student.house === "Ravenclaw") {
-    return true;
-  } else {
-    return false;
-  }
-}
+
 function isAll(student) {
   return true;
 }
 function checkSort() {}
 
+function buildList() {
+  filteredStudents = filterStudents(allCleanStudents);
+  displayList(filteredStudents);
+}
 /* STORING THE CLEAN DATA & PUSHING TO GLOBAL STUDENT ARRAY */
 function cleanStudentData(students) {
   console.log(students);
@@ -206,12 +184,12 @@ function cleanTheData(data) {
     .toLowerCase()}`;
 }
 //"helper function", cleaning container + calling displayStudent
-function displayList() {
+function displayList(students) {
   //make sure the list is cleared
   document.querySelector("#list tbody").innerHTML = "";
 
   //build a new list w. the clean data
-  allCleanStudents.forEach(displayStudent);
+  students.forEach(displayStudent);
 }
 //displaying the students
 function displayStudent(student) {
