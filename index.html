@@ -58,6 +58,14 @@
         >
           Slytherin
         </option>
+        <option
+          value="Expelled"
+          class="filter-type"
+          data-action="filter"
+          data-filter="Expelled"
+        >
+          Slytherin
+        </option>
       </select>
       <!-- the search bar is made with a input field  -->
       <input type="text" id="search-field" placeholder="🔍" />
@@ -136,6 +144,20 @@
           <p>Expelled: <span id="expelled"></span></p>
           <p>Bloodstatus: <span id="bloodstatus"></span></p>
           <p>Squadmember: <span id="squadmember"></span></p>
+        </div>
+      </div>
+    </div>
+    <!-- the expell-dialog -->
+    <div id="expell-dialog" class="modal hide">
+      <div class="dialog">
+        <button class="closebutton">❌</button>
+        <div class="generic">
+          <h1>Be aware!</h1>
+          <p>
+            Student disappear when expelled.<br /><br />
+            Do you want to expell this student?
+          </p>
+          <button id="expellstudent" class="text-button">Expell Student</button>
         </div>
       </div>
     </div>

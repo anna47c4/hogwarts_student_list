@@ -8,15 +8,17 @@ let allStudents = [];
 let allCleanStudents = [];
 //array for filtered students
 let filteredStudents = [];
-//other variables stored in an object
+//filter + sort properties stored in an object
 let settings = {
   filterBy: "All",
   sortBy: "all",
   sortDir: "",
+  searchQuery: "",
 };
-
+//variables for filter & sort
 const houseFilter = document.getElementById("filter-type");
 const sortItems = document.querySelectorAll("[data-action=sort]");
+const searchInput = document.getElementById("search-field");
 
 //down here is the object prototype that I create the student obj. from
 const Student = {
@@ -30,8 +32,9 @@ const Student = {
 
 function start() {
   console.log("here we go, cleaning up!");
-  //eventListeners for filter & sort
+  //eventListeners for sort, filter (searchfilter also)
   houseFilter.addEventListener("change", checkFilter);
+  searchInput.addEventListener("keyup", checkSearchInput);
   sortItems.forEach((sortItem) => {
     sortItem.addEventListener("click", checkSort);
   });
@@ -89,8 +92,48 @@ function filterStudents(filteredStudents) {
         return checkHouse(student, settings.filterBy);
       });
       break;
+    case "Expelled":
+      filteredStudents = allCleanStudents.filter(isExpelled);
   }
   return filteredStudents;
+}
+function isExpelled(student) {
+  if (student.expelled === true) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function expellStudent(student) {
+  if (student.expelled === true) {
+    return;
+  } else {
+    tryToExpell(student);
+    buildList();
+  }
+}
+function tryToExpell(selectedStudent) {
+  document.querySelector("#expell-dialog").classList.remove("hide");
+  /* document.querySelector("#expell-dialog").classList.add("hide"); */
+
+  document
+    .querySelector("#expellstudent")
+    .addEventListener("click", clickExpellStudent);
+  document
+    .querySelector("#expell-dialog .closebutton")
+    .addEventListener("click", closeExpell);
+
+  function clickExpellStudent() {
+    selectedStudent.expelled = true;
+    const attendingStudents = allCleanStudents.filter(
+      (student) => student.expelled === false
+    );
+    closeExpell();
+    displayList(attendingStudents);
+  }
+  function closeExpell() {
+    document.querySelector("#expell-dialog .generic").classList.remove("hide");
+  }
 }
 
 function checkHouse(student, house) {
@@ -102,6 +145,9 @@ function checkHouse(student, house) {
 }
 
 function isAll(student) {
+  if (student.expelled) {
+    return false;
+  }
   return true;
 }
 function checkSort(event) {
@@ -143,10 +189,28 @@ function sortStudents(sortedList) {
   }
   return sortedList;
 }
+function checkSearchInput() {
+  settings.searchQuery = searchInput.value;
+  buildList();
+}
+
+function studentSearchFilter(students) {
+  return students.filter(function (student) {
+    return (
+      student.firstName
+        .toLowerCase()
+        .includes(settings.searchQuery.toLowerCase()) ||
+      student.lastName
+        .toLowerCase()
+        .includes(settings.searchQuery.toLowerCase())
+    );
+  });
+}
 
 function buildList() {
   filteredStudents = filterStudents(allCleanStudents);
   filteredStudents = sortStudents(filteredStudents);
+  filteredStudents = studentSearchFilter(filteredStudents);
   displayList(filteredStudents);
 }
 /* STORING THE CLEAN DATA & PUSHING TO GLOBAL STUDENT ARRAY */
@@ -175,9 +239,9 @@ function getCleanData(student) {
     nickName: nameObj.nickName,
     house: cleanHouse,
     studentImg: studentImg,
+    expelled: false,
   };
 }
-
 //splitting the names into first, last, middle, etc.
 function splitFullName(fullname) {
   //storing all the names in a obj. and putting default values to those without middle/nicknames
@@ -248,6 +312,18 @@ function displayStudent(student) {
     student.middleName;
   clone.querySelector("[data-field=nickName]").textContent = student.nickName;
   clone.querySelector("[data-field=house]").textContent = student.house;
+  //expell student toggle
+  if (student.expelled == true) {
+    clone.querySelector("[data-field=expelled]").textContent = "✔️";
+  } else {
+    clone.querySelector("[data-field=expelled]").textContent = "Expell";
+  }
+  //adding click event to expelled field
+  clone
+    .querySelector("[data-field=expelled]")
+    .addEventListener("click", function () {
+      expellStudent(student);
+    });
   //make the student clickable and send to popup-details
   clone
     .querySelector("[data-field=firstName]")
