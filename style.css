@@ -15,6 +15,10 @@ tr:nth-of-type(odd) {
   background: #172219;
   color: rgba(225, 222, 222, 0.9);
 }
+th {
+  background: #592202; /* the two colors here have a Gryffindor vibe when together */
+  color: goldenrod;
+}
 td,
 th {
   padding: 6px;
@@ -24,8 +28,7 @@ th {
 /* 
 STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD
 */
-@media only screen and (max-width: 760px),
-  (min-device-width: 768px) and (max-device-width: 1024px) {
+@media (max-width: 850px) {
   /* Force table to not be like tables anymore */
   table,
   thead,
@@ -102,3 +105,6 @@ END STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD
 */
 
 /* BASIC STYLING (P, ETC) */
+
+/* @media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) */

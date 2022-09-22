@@ -11,10 +11,12 @@ let filteredStudents = [];
 //other variables stored in an object
 let settings = {
   filterBy: "All",
+  sortBy: "all",
+  sortDir: "",
 };
 
 const houseFilter = document.getElementById("filter-type");
-/* const sortItems = document.querySelectorAll("[data-action=sort]"); */
+const sortItems = document.querySelectorAll("[data-action=sort]");
 
 //down here is the object prototype that I create the student obj. from
 const Student = {
@@ -30,7 +32,9 @@ function start() {
   console.log("here we go, cleaning up!");
   //eventListeners for filter & sort
   houseFilter.addEventListener("change", checkFilter);
-
+  sortItems.forEach((sortItem) => {
+    sortItem.addEventListener("click", checkSort);
+  });
   fetchJSON();
 }
 //fetching the json-data
@@ -100,10 +104,49 @@ function checkHouse(student, house) {
 function isAll(student) {
   return true;
 }
-function checkSort() {}
+function checkSort(event) {
+  console.log("going to check sort!");
+  const sortBy = event.target.dataset.sort;
+  let sortDir = event.target.dataset.sortDirection;
+
+  //toggle so u can sort ascending & descending
+  if (settings.sortDir === "asc") {
+    sortDir = "desc";
+  } else {
+    sortDir = "asc";
+  }
+  setSort(sortBy, sortDir);
+}
+
+function setSort(sortBy, sortDir) {
+  settings.sortBy = sortBy;
+  settings.sortDir = sortDir;
+  buildList();
+}
+
+function sortStudents(sortedList) {
+  let direction = 1;
+  if (settings.sortDir === "desc") {
+    direction = -1;
+  } else {
+    direction = 1;
+  }
+
+  sortedList = sortedList.sort(sortBySort);
+
+  function sortBySort(studentA, studentB) {
+    if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
+      return -1 * direction;
+    } else {
+      return 1 * direction;
+    }
+  }
+  return sortedList;
+}
 
 function buildList() {
   filteredStudents = filterStudents(allCleanStudents);
+  filteredStudents = sortStudents(filteredStudents);
   displayList(filteredStudents);
 }
 /* STORING THE CLEAN DATA & PUSHING TO GLOBAL STUDENT ARRAY */
