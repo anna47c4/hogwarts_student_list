@@ -97,44 +97,6 @@ function filterStudents(filteredStudents) {
   }
   return filteredStudents;
 }
-function isExpelled(student) {
-  if (student.expelled === true) {
-    return true;
-  } else {
-    return false;
-  }
-}
-function expellStudent(student) {
-  if (student.expelled === true) {
-    return;
-  } else {
-    tryToExpell(student);
-    buildList();
-  }
-}
-function tryToExpell(selectedStudent) {
-  document.querySelector("#expell-dialog").classList.remove("hide");
-  /* document.querySelector("#expell-dialog").classList.add("hide"); */
-
-  document
-    .querySelector("#expellstudent")
-    .addEventListener("click", clickExpellStudent);
-  document
-    .querySelector("#expell-dialog .closebutton")
-    .addEventListener("click", closeExpell);
-
-  function clickExpellStudent() {
-    selectedStudent.expelled = true;
-    const attendingStudents = allCleanStudents.filter(
-      (student) => student.expelled === false
-    );
-    closeExpell();
-    displayList(attendingStudents);
-  }
-  function closeExpell() {
-    document.querySelector("#expell-dialog .generic").classList.remove("hide");
-  }
-}
 
 function checkHouse(student, house) {
   if (student.house === house) {
@@ -342,4 +304,44 @@ function studentDetails(specificStudent) {
   document.querySelector(
     ".student-pic"
   ).src = `images/${specificStudent.studentImg}`;
+}
+function expellStudent(student) {
+  if (student.expelled === true) {
+    return;
+  } else {
+    tryToExpell(student);
+    buildList();
+  }
+}
+function isExpelled(student) {
+  if (student.expelled === true) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function tryToExpell(selectedStudent) {
+  document.querySelector("#expell-dialog").classList.remove("hide");
+  /* document.querySelector("#expell-dialog").classList.add("hide"); */
+
+  document
+    .querySelector("#expellstudent")
+    .addEventListener("click", clickExpellStudent);
+  document
+    .querySelector("#expell-dialog .closebutton")
+    .addEventListener("click", closeExpell);
+
+  function clickExpellStudent() {
+    selectedStudent.expelled = true;
+    const attendingStudents = allCleanStudents.filter(
+      (student) => student.expelled === false
+    );
+    closeExpell();
+    displayList(attendingStudents);
+  }
+  function closeExpell() {
+    document.querySelector("#expell-dialog .generic").classList.add("hide");
+    document.querySelector("#expell-dialog .closebutton").classList.add("hide");
+  }
 }
