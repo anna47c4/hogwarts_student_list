@@ -204,6 +204,7 @@ function getCleanData(student) {
     house: cleanHouse,
     studentImg: studentImg,
     expelled: false,
+    prefect: false,
   };
 }
 //splitting the names into first, last, middle, etc.
@@ -361,21 +362,30 @@ function tryToExpell(selectedStudent) {
   }
 }
 //prefects
+function clickPrefect(student) {
+  if (student.prefect === true) {
+    student.prefect = false;
+  } else {
+    tryToMakePrefect(student);
+  }
+  buildList();
+}
 function tryToMakePrefect(selectedStudent) {
   const prefects = allCleanStudents.filter((student) => student.prefect);
-  const prefectsTotal = prefects.length;
-  const otherPrefect = prefects
-    .filter((student) => student.gender === selectedStudent.gender)
-    .shift();
-
+  const other = prefects.filter(
+    (student) => student.house === selectedStudent.house
+  );
+  const totalPrefects = other.length;
+  console.log(`there is ${totalPrefects} prefects`);
   //the 'rules' - if there is another of the same "type"
-  if (otherPrefect !== undefined) {
-    removeOther(otherPrefect);
+  if (totalPrefects >= 2) {
+    console.log("there can only be one gender from each house!");
+    removeAorB(other[0], other[1]);
   } else {
     makePrefect(selectedStudent);
   }
 
-  function removeOther(otherPrefect) {
+  /*  function removeOther(otherPrefect) {
     //dialog box - prefects
     document.querySelector("#remove-other").classList.remove("hide");
     document.querySelector(
@@ -386,10 +396,10 @@ function tryToMakePrefect(selectedStudent) {
       .addEventListener("click", closePrefectDialog);
     document
       .querySelector("#remove-other .remove")
-      .addEventListener("click", clickRemoveOther);
+      .addEventListener("click", clickRemoveOther); */
 
-    //if not removing other
-    function closePrefectDialog() {
+  //if not removing other
+  /*    function closePrefectDialog() {
       document.querySelector("#remove-other").classList.add("hide");
       document
         .querySelector("#remove-other .remove")
@@ -402,22 +412,61 @@ function tryToMakePrefect(selectedStudent) {
       buildList();
       closePrefectDialog();
     }
-  }
+  } */
   function removePrefect(prefectStudent) {
     prefectStudent.prefect = false;
   }
+  function removeAorB(prefectA, prefectB) {
+    //ignore, or remove A or B
+    document.querySelector("#remove-aorb").classList.remove("hide");
+    document
+      .querySelector("#remove-aorb .closebutton")
+      .addEventListener("click", closeABDialog);
 
+    document
+      .querySelector("#remove-aorb #removea")
+      .addEventListener("click", clickRemoveA);
+    document
+      .querySelector("#remove-aorb #removeb")
+      .addEventListener("click", clickRemoveB);
+
+    //show names on buttons
+    document.querySelector("#removea [data-field=prefectA]").textContent =
+      prefectA.firstName;
+    document.querySelector("#removeb [data-field=prefectB]").textContent =
+      prefectB.firstName;
+
+    //if user ignore, do nothing
+    function closeABDialog() {
+      document.querySelector("#remove-aorb").classList.add("hide");
+      document
+        .querySelector("#remove-aorb .closebutton")
+        .removeEventListener("click", closeABDialog);
+      document
+        .querySelector("#remove-aorb #removea")
+        .removeEventListener("click", clickRemoveA);
+      document
+        .querySelector("#remove-aorb #removeb")
+        .removeEventListener("click", clickRemoveB);
+    }
+
+    function clickRemoveA() {
+      //if removeA then
+      removePrefect(prefectA);
+      makePrefect(selectedStudent);
+      buildList();
+      closeABDialog();
+    }
+
+    function clickRemoveB() {
+      removePrefect(prefectB);
+      makePrefect(selectedStudent);
+      buildList();
+      closeABDialog();
+    }
+  }
   function makePrefect(student) {
     console.log("Adding new student as prefect");
     student.prefect = true;
   }
-}
-
-function clickPrefect(student) {
-  if (student.prefect === true) {
-    student.prefect = false;
-  } else {
-    tryToMakePrefect(student);
-  }
-  buildList();
 }
