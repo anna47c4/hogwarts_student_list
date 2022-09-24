@@ -28,6 +28,7 @@ const Student = {
   nickName: "",
   image: "",
   house: "",
+  prefect: "",
 };
 
 function start() {
@@ -64,6 +65,7 @@ function prepareObject(jsonObj) {
 
   student.fullname = jsonObj.fullname;
   student.house = jsonObj.house;
+  student.gender = jsonObj.gender;
 
   return student;
 }
@@ -286,6 +288,19 @@ function displayStudent(student) {
     .addEventListener("click", function () {
       expellStudent(student);
     });
+  //prefect display
+  clone.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
+  clone
+    .querySelector("[data-field=prefect]")
+    .addEventListener("click", function () {
+      clickPrefect(student);
+    });
+  //changing content in prefect field
+  if (student.prefect == true) {
+    clone.querySelector("[data-field=prefect]").textContent = "🥇";
+  } else {
+    clone.querySelector("[data-field=prefect]").textContent = "Prefect";
+  }
   //make the student clickable and send to popup-details
   clone
     .querySelector("[data-field=firstName]")
@@ -305,6 +320,7 @@ function studentDetails(specificStudent) {
     ".student-pic"
   ).src = `images/${specificStudent.studentImg}`;
 }
+//expelling
 function expellStudent(student) {
   if (student.expelled === true) {
     return;
@@ -320,7 +336,6 @@ function isExpelled(student) {
     return false;
   }
 }
-
 function tryToExpell(selectedStudent) {
   document.querySelector("#expell-dialog").classList.remove("hide");
   /* document.querySelector("#expell-dialog").classList.add("hide"); */
@@ -344,4 +359,65 @@ function tryToExpell(selectedStudent) {
     document.querySelector("#expell-dialog .generic").classList.add("hide");
     document.querySelector("#expell-dialog .closebutton").classList.add("hide");
   }
+}
+//prefects
+function tryToMakePrefect(selectedStudent) {
+  const prefects = allCleanStudents.filter((student) => student.prefect);
+  const prefectsTotal = prefects.length;
+  const otherPrefect = prefects
+    .filter((student) => student.gender === selectedStudent.gender)
+    .shift();
+
+  //the 'rules' - if there is another of the same "type"
+  if (otherPrefect !== undefined) {
+    removeOther(otherPrefect);
+  } else {
+    makePrefect(selectedStudent);
+  }
+
+  function removeOther(otherPrefect) {
+    //dialog box - prefects
+    document.querySelector("#remove-other").classList.remove("hide");
+    document.querySelector(
+      "#remove-other .remove"
+    ).innerHTML = `remove ${otherPrefect.firstName}`;
+    document
+      .querySelector("#remove-other .closebutton")
+      .addEventListener("click", closePrefectDialog);
+    document
+      .querySelector("#remove-other .remove")
+      .addEventListener("click", clickRemoveOther);
+
+    //if not removing other
+    function closePrefectDialog() {
+      document.querySelector("#remove-other").classList.add("hide");
+      document
+        .querySelector("#remove-other .remove")
+        .addEventListener("click", closePrefectDialog);
+    }
+    //if user wants to remove the other prefect
+    function clickRemoveOther() {
+      removePrefect(otherPrefect);
+      makePrefect(selectedStudent);
+      buildList();
+      closePrefectDialog();
+    }
+  }
+  function removePrefect(prefectStudent) {
+    prefectStudent.prefect = false;
+  }
+
+  function makePrefect(student) {
+    console.log("Adding new student as prefect");
+    student.prefect = true;
+  }
+}
+
+function clickPrefect(student) {
+  if (student.prefect === true) {
+    student.prefect = false;
+  } else {
+    tryToMakePrefect(student);
+  }
+  buildList();
 }

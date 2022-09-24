@@ -64,7 +64,7 @@
           data-action="filter"
           data-filter="Expelled"
         >
-          Slytherin
+          Expelled students
         </option>
       </select>
       <!-- the search bar is made with a input field  -->
@@ -161,6 +161,37 @@
         </div>
       </div>
     </div>
+    <!-- the prefect 'remove other' dialog box -->
+    <div id="remove-other" class="modal hide">
+      <div class="dialog">
+        <button class="closebutton">❌</button>
+        <h1>Oops!</h1>
+        <p>
+          Remove other prefect, before this student can be one.<br /><br />
+          Do you want to remove the other?
+        </p>
+        <button class="remove">Remove other prefect</button>
+      </div>
+    </div>
+    <!-- the prefect remove a or b -->
+    <div id="remove_aorb" class="modal hide">
+      <div class="dialog">
+        <button class="closebutton">❌</button>
+        <h1>Oh oohh...</h1>
+        <p>
+          There can not be more than two from each house.<br />
+          Do you want to remove one of the existing prefects?
+        </p>
+        <div class="sidebyside">
+          <button id="removea">
+            Remove <span data-field="prefectA">A</span>
+          </button>
+          <button id="removeb">
+            Remove <span data-field="prefectB">B</span>
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- the template we use to dislay the student data -->
     <template id="student">
       <tr>
@@ -171,7 +202,7 @@
         <td data-field="house">House</td>
         <td data-field="bloodStatus">Bloodstatus</td>
         <td data-field="expelled">Expelled</td>
-        <td data-field="prefect" data-prefect="false">Prefect</td>
+        <td data-field="prefect" data-prefect="false"></td>
         <td data-field="squadMember">Squad</td>
       </tr>
     </template>
