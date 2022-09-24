@@ -279,7 +279,7 @@ function displayStudent(student) {
   clone.querySelector("[data-field=house]").textContent = student.house;
   //expell student toggle
   if (student.expelled == true) {
-    clone.querySelector("[data-field=expelled]").textContent = "✔️";
+    clone.querySelector("[data-field=expelled]").textContent = "Expelled✅";
   } else {
     clone.querySelector("[data-field=expelled]").textContent = "Expell";
   }
@@ -298,9 +298,9 @@ function displayStudent(student) {
     });
   //changing content in prefect field
   if (student.prefect == true) {
-    clone.querySelector("[data-field=prefect]").textContent = "🥇";
+    clone.querySelector("[data-field=prefect]").textContent = "Is prefect🥇";
   } else {
-    clone.querySelector("[data-field=prefect]").textContent = "Prefect";
+    clone.querySelector("[data-field=prefect]").textContent = "Make prefect";
   }
   //make the student clickable and send to popup-details
   clone
@@ -347,6 +347,11 @@ function tryToExpell(selectedStudent) {
   document
     .querySelector("#expell-dialog .closebutton")
     .addEventListener("click", closeExpell);
+
+  //show names on buttons
+  document.querySelector(
+    "#expellstudent"
+  ).textContent = `Expell ${selectedStudent.firstName}`;
 
   function clickExpellStudent() {
     selectedStudent.expelled = true;
@@ -457,7 +462,7 @@ function tryToMakePrefect(selectedStudent) {
       buildList();
       closeABDialog();
     }
-
+    //if remove B then
     function clickRemoveB() {
       removePrefect(prefectB);
       makePrefect(selectedStudent);
