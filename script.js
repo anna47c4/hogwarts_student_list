@@ -3,6 +3,7 @@ window.addEventListener("load", start);
 
 //empty array to store our student data from fetch
 let allStudents = [];
+let families = {};
 
 //cleaned version student array that I end up displaying
 let allCleanStudents = [];
@@ -41,19 +42,25 @@ function start() {
   });
   fetchJSON();
 }
-//fetching the json-data
+
+//fetching studentData and familyData
 async function fetchJSON() {
-  fetch("https://petlatkea.dk/2021/hogwarts/students.json")
-    .then((response) => response.json())
-    .then((jsonData) => {
-      //with the arrow function we say that when the data is loaded, go to prepareObjects
-      prepareObjects(jsonData);
-      /*   console.log(jsonData); */
-    });
+  const allStudents = await fetch(
+    "https://petlatkea.dk/2021/hogwarts/students.json"
+  );
+  const studentJSONdata = await allStudents.json();
+
+  const familiesDataResponse = await fetch(
+    "https://petlatkea.dk/2021/hogwarts/families.json"
+  );
+  const familiesJSONdata = await familiesDataResponse.json();
+
+  families = familiesJSONdata;
+
+  prepareObjects(studentJSONdata);
 }
 
 function prepareObjects(jsonData) {
-  /* console.log(allCleanStudents); */
   allStudents = jsonData.map(prepareObject); //with map() we take each elm. from jsonData, and add the results to allStudents array, in the same order
   //call cleaned data to then call forEach
   cleanStudentData(allStudents); //the array we're cleaning
@@ -190,6 +197,7 @@ function cleanStudentData(students) {
 //storing the clean data in variables
 function getCleanData(student) {
   const nameObj = splitFullName(student.fullname); //nameobj is where we want to store our splitted names
+  const bloodStatus = getBloodStatus(nameObj.lastName);
   const cleanHouse = cleanTheData(student.house);
   const studentImg = `${nameObj.lastName.toLowerCase()}_${nameObj.firstName
     .charAt(0)
@@ -205,6 +213,8 @@ function getCleanData(student) {
     studentImg: studentImg,
     expelled: false,
     prefect: false,
+    bloodStatus: bloodStatus,
+    squadMember: "add",
   };
 }
 //splitting the names into first, last, middle, etc.
@@ -255,6 +265,43 @@ function cleanTheData(data) {
     .slice(1)
     .toLowerCase()}`;
 }
+//gettin' bloodStatus
+function getBloodStatus(lastName) {
+  const hyphenIndex = lastName.indexOf("-");
+  if (hyphenIndex > -1) {
+    //split names
+    const hyphenName = lastName.split("-");
+    const isPureBlooded = hyphenName.some(function (name) {
+      return families.pure.includes(name);
+    });
+
+    const isHalfBlooded = hyphenName.some(function (name) {
+      return families.half.includes(name);
+    });
+
+    if (isPureBlooded && isHalfBlooded) {
+      return "Half";
+    }
+
+    if (isPureBlooded) {
+      return "Pure";
+    }
+
+    if (isHalfBlooded) {
+      return "Half";
+    }
+    return "Muggle";
+  }
+
+  if (families.half.includes(lastName)) {
+    return "Half";
+  }
+
+  if (families.pure.includes(lastName)) {
+    return "Pure";
+  }
+  return "Muggle";
+}
 //"helper function", cleaning container + calling displayStudent
 function displayList(students) {
   //make sure the list is cleared
@@ -277,6 +324,10 @@ function displayStudent(student) {
     student.middleName;
   clone.querySelector("[data-field=nickName]").textContent = student.nickName;
   clone.querySelector("[data-field=house]").textContent = student.house;
+  clone.querySelector("[data-field=bloodStatus]").textContent =
+    student.bloodStatus;
+  clone.querySelector("[data-field=squadMember]").textContent =
+    student.squadMember;
   //expell student toggle
   if (student.expelled == true) {
     clone.querySelector("[data-field=expelled]").textContent = "Expelled✅";
@@ -302,6 +353,13 @@ function displayStudent(student) {
   } else {
     clone.querySelector("[data-field=prefect]").textContent = "Make prefect";
   }
+
+  //squad
+  clone
+    .querySelector("[data-field=squadMember]")
+    .addEventListener("click", function () {
+      addToSquad(student);
+    });
   //make the student clickable and send to popup-details
   clone
     .querySelector("[data-field=firstName]")
@@ -310,6 +368,27 @@ function displayStudent(student) {
     });
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
+}
+//add as squadMember
+function addToSquad(student) {
+  if (student.house === "Slytherin" || student.bloodStatus === "Pure") {
+    if (student.squadMember === "Yes") {
+      student.squadMember = "add";
+    } else {
+      student.squadMember = "Yes";
+    }
+
+    buildList();
+  } else {
+    document.getElementById("squad-dialog").classList.remove("hide");
+    document
+      .querySelector("#squad-dialog .closebutton")
+      .addEventListener("click", closeSquadDialog);
+  }
+
+  function closeSquadDialog() {
+    document.getElementById("squad-dialog").classList.add("hide");
+  }
 }
 //student pop-up
 function studentDetails(specificStudent) {
