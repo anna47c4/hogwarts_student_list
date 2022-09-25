@@ -354,7 +354,7 @@ function displayStudent(student) {
     clone.querySelector("[data-field=prefect]").textContent = "Make prefect";
   }
 
-  //squad
+  //squad clickable and sending to addToSquad function
   clone
     .querySelector("[data-field=squadMember]")
     .addEventListener("click", function () {
@@ -372,10 +372,10 @@ function displayStudent(student) {
 //add as squadMember
 function addToSquad(student) {
   if (student.house === "Slytherin" || student.bloodStatus === "Pure") {
-    if (student.squadMember === "Yes") {
+    if (student.squadMember === "Yes🚩") {
       student.squadMember = "add";
     } else {
-      student.squadMember = "Yes";
+      student.squadMember = "Yes🚩";
     }
 
     buildList();
