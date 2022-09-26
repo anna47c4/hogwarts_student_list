@@ -402,6 +402,30 @@ function studentDetails(specificStudent) {
   document.querySelector(
     ".student-pic"
   ).src = `images/${specificStudent.studentImg}`;
+  //student crest
+  document.querySelector(".crest").src = `crest/${specificStudent.house}.jpg`;
+  //student house theme (background-color and shadow-box)
+  if (specificStudent.house === "Slytherin") {
+    document.querySelector(".housestyling").style.backgroundColor =
+      "rgb(14,55,17)";
+    document.querySelector(".crest").style.boxShadow =
+      "10px 20px 30px 30px green";
+  } else if (specificStudent.house === "Gryffindor") {
+    document.querySelector(".housestyling").style.backgroundColor =
+      "rgb(126,25,25)";
+    document.querySelector(".crest").style.boxShadow =
+      "10px 20px 30px 30px yellow";
+  } else if (specificStudent.house === "Ravenclaw") {
+    document.querySelector(".housestyling").style.backgroundColor =
+      "rgb(43,105,163)";
+    document.querySelector(".crest").style.boxShadow =
+      "10px 20px 30px 30px blue";
+  } else if (specificStudent.house === "Hufflepuff") {
+    document.querySelector(".housestyling").style.backgroundColor =
+      "rgb(159,157,19)";
+    document.querySelector(".crest").style.boxShadow =
+      "10px 20px 30px 30px grey";
+  }
 
   document
     .querySelector("#student-details .closebutton")
