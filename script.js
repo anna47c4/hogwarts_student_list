@@ -377,7 +377,6 @@ function addToSquad(student) {
     } else {
       student.squadMember = "Yes🚩";
     }
-
     buildList();
   } else {
     document.getElementById("squad-dialog").classList.remove("hide");
@@ -397,7 +396,43 @@ function addToSquad(student) {
 function studentDetails(specificStudent) {
   //remove the hide class
   document.getElementById("student-details").classList.remove("hide");
-
+  //set properties to display
+  //fullname
+  document.querySelector(
+    "#fullname"
+  ).innerHTML = `${specificStudent.firstName} ${specificStudent.lastName} `;
+  //nickname
+  document.querySelector("#nickname").innerHTML = `${specificStudent.nickName}`;
+  //prefect status personalized
+  if (specificStudent.prefect === true) {
+    document.querySelector(
+      "#prefect"
+    ).innerHTML = `${specificStudent.firstName} is prefect!`;
+  } else {
+    document.querySelector(
+      "#prefect"
+    ).innerHTML = `${specificStudent.firstName} is not a prefect`;
+  }
+  //expelled status personalized
+  if (specificStudent.expelled === true) {
+    document.querySelector(
+      "#expelled"
+    ).innerHTML = `${specificStudent.firstName} is expelled`;
+  } else {
+    document.querySelector(
+      "#expelled"
+    ).innerHTML = `${specificStudent.firstName} is attendnig`;
+  }
+  //bloodstatus
+  document.querySelector(
+    "#bloodstatus"
+  ).innerHTML = `${specificStudent.bloodStatus}`;
+  //squadmember - change content so it dosen't says 'add' in the popUp
+  if (specificStudent.squadMember === "Yes🚩") {
+    document.querySelector("#squadmember").innerHTML = `Yes🚩`;
+  } else {
+    document.querySelector("#squadmember").innerHTML = `No`;
+  }
   //student image
   document.querySelector(
     ".student-pic"
@@ -487,10 +522,16 @@ function tryToExpell(selectedStudent) {
 }
 //prefects
 function clickPrefect(student) {
-  if (student.prefect === true) {
-    student.prefect = false;
+  if (student.expelled === false) {
+    if (student.prefect === true) {
+      student.prefect = false;
+    } else {
+      tryToMakePrefect(student);
+    }
   } else {
-    tryToMakePrefect(student);
+    alert(
+      "You can't turn a expelled student into a prefect, even tho it is a school of magic😝"
+    );
   }
   buildList();
 }
