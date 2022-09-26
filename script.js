@@ -388,6 +388,9 @@ function addToSquad(student) {
 
   function closeSquadDialog() {
     document.getElementById("squad-dialog").classList.add("hide");
+    document
+      .querySelector("#squad-dialog .closebutton")
+      .removeEventListener("click", closeSquadDialog);
   }
 }
 //student pop-up
@@ -399,6 +402,17 @@ function studentDetails(specificStudent) {
   document.querySelector(
     ".student-pic"
   ).src = `images/${specificStudent.studentImg}`;
+
+  document
+    .querySelector("#student-details .closebutton")
+    .addEventListener("click", closeStudentDetails);
+
+  function closeStudentDetails() {
+    document.querySelector("#student-details").classList.add("hide");
+    document
+      .querySelector("#student-details .closebutton")
+      .removeEventListener("click", closeStudentDetails);
+  }
 }
 //expelling
 function expellStudent(student) {
@@ -441,8 +455,10 @@ function tryToExpell(selectedStudent) {
     displayList(attendingStudents);
   }
   function closeExpell() {
-    document.querySelector("#expell-dialog .generic").classList.add("hide");
-    document.querySelector("#expell-dialog .closebutton").classList.add("hide");
+    document.querySelector("#expell-dialog").classList.add("hide");
+    document
+      .querySelector("#expell-dialog .closebutton")
+      .removeEventListener("click", closeExpell);
   }
 }
 //prefects
