@@ -40,6 +40,11 @@ function start() {
   sortItems.forEach((sortItem) => {
     sortItem.addEventListener("click", checkSort);
   });
+
+  //click-event on current list info
+  document
+    .querySelector("#number-info")
+    .addEventListener("click", currentListDialog);
   fetchJSON();
 }
 
@@ -214,7 +219,7 @@ function getCleanData(student) {
     expelled: false,
     prefect: false,
     bloodStatus: bloodStatus,
-    squadMember: "add",
+    squadMember: "Add",
   };
 }
 //splitting the names into first, last, middle, etc.
@@ -633,5 +638,60 @@ function tryToMakePrefect(selectedStudent) {
   function makePrefect(student) {
     console.log("Adding new student as prefect");
     student.prefect = true;
+  }
+}
+
+function currentListDialog() {
+  /* console.log("arrived to function:)"); */
+  document.getElementById("number-dialog").classList.remove("hide");
+  document
+    .querySelector("#number-dialog .closebutton")
+    .addEventListener("click", closeListDialog);
+  //set current properties
+  //total student count
+  let totalStudentCount = allCleanStudents.length;
+  document.getElementById(
+    "total-number"
+  ).innerHTML = `Total student count: ${totalStudentCount}`;
+  //expelled students
+  let expelledStudents = allCleanStudents.filter((student) => student.expelled);
+  document.getElementById(
+    "expelled-number"
+  ).innerHTML = `Expelled students count: ${expelledStudents.length}`;
+  //HOUSE current data
+  //Slytherin
+  let slytherinStudents = allCleanStudents.filter(
+    (student) => student.house === "Slytherin"
+  );
+  document.getElementById(
+    "slytherin-number"
+  ).innerHTML = `Slytherin students: ${slytherinStudents.length}`;
+  //Gryffindor
+  let gryffindorStudents = allCleanStudents.filter(
+    (student) => student.house === "Gryffindor"
+  );
+  document.getElementById(
+    "gryffindor-number"
+  ).innerHTML = `Gryffindor students: ${gryffindorStudents.length}`;
+  //Hufflepuff
+  let hufflepuffStudents = allCleanStudents.filter(
+    (student) => student.house === "Hufflepuff"
+  );
+  document.getElementById(
+    "hufflepuff-number"
+  ).innerHTML = `Hufflepuff students: ${hufflepuffStudents.length}`;
+  //Ravenclaw
+  let ravenclawStudents = allCleanStudents.filter(
+    (student) => student.house === "Ravenclaw"
+  );
+  document.getElementById(
+    "ravenclaw-number"
+  ).innerHTML = `Ravenclaw students: ${ravenclawStudents.length}`;
+  //close list dialog
+  function closeListDialog() {
+    document.getElementById("number-dialog").classList.add("hide");
+    document
+      .querySelector("#number-dialog .closebutton")
+      .removeEventListener("click", closeListDialog);
   }
 }
