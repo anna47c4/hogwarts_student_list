@@ -146,5 +146,31 @@ img.crest {
 .housestyling {
   background-color: #592202;
 }
+/* setting cursor and hover for fields */
+[data-field="firstName"] {
+  cursor: pointer;
+}
+[data-field="firstName"]:hover {
+  color: goldenrod;
+}
+[data-field="expelled"] {
+  cursor: pointer;
+}
+[data-field="expelled"]:hover {
+  font-size: larger;
+  color: red;
+}
+[data-field="prefect"] {
+  cursor: pointer;
+}
+[data-field="prefect"]:hover {
+  color: goldenrod;
+}
+[data-field="squadMember"] {
+  cursor: pointer;
+}
+[data-field="squadMember"]:hover {
+  font-size: larger;
+}
 /* @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) */
