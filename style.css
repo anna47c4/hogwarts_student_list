@@ -1,5 +1,6 @@
 /* class to hide dialog boxes */
 .hide {
+  display: none;
   visibility: hidden;
 }
 /* 
@@ -137,6 +138,7 @@ END STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD
 .dialog h1 {
   margin-top: 0;
 }
+
 /* house crest settings */
 img.crest {
   border-radius: 17px;
