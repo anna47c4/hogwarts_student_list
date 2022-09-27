@@ -751,9 +751,8 @@ function hackTheSystem() {
       expelled: false,
       prefect: false,
       bloodStatus: "Half",
-      squadMember: "No",
+      squadMember: "Leads  squad",
     };
-
     allCleanStudents.push(halfBloodPrincess);
     randomBloodstatus();
     buildList();

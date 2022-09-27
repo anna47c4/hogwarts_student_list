@@ -40,6 +40,41 @@ button {
   text-decoration: underline goldenrod;
   cursor: pointer;
 }
+button {
+  border-radius: 6px;
+  background-color: beige;
+  text-transform: uppercase;
+}
+button:hover {
+  background-color: goldenrod;
+}
+/* student details text */
+.detail-wrapper {
+  color: beige;
+}
+/* hack button bg styling */
+.hack-wrapper {
+  display: flex;
+  justify-content: end;
+}
+#hack-button {
+  color: goldenrod;
+  font-weight: bold;
+  padding: 8px;
+  height: 50px;
+  background-image: url("/otherimg/hack_background.jpg");
+  border: 1.5px dotted red;
+  margin-top: 8px;
+}
+#hack-button:hover {
+  filter: opacity(70%);
+  animation: hackanimation 1s ease 0s 2 normal forwards;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+}
 /* 
 Generic Styling, for Desktops/Laptops 
 */
