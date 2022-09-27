@@ -3,6 +3,43 @@
   display: none;
   visibility: hidden;
 }
+/* h1 + Top section styling */
+h1 {
+  font-family: "Fredericka the Great", cursive;
+  color: #172219;
+  border-bottom: 1px solid goldenrod;
+}
+.title,
+#filter-options {
+  display: flex;
+  justify-content: center;
+}
+#filter-options {
+  gap: 5px;
+}
+#filter-type {
+  border: none;
+  background-color: beige;
+  padding: 5px;
+  cursor: pointer;
+  font-family: "Work Sans", sans-serif;
+}
+#filter-type:hover {
+  filter: opacity(70%);
+}
+p,
+th,
+td,
+span,
+option,
+button {
+  font-family: "Work Sans", sans-serif;
+}
+#more-info {
+  padding: 8px;
+  text-decoration: underline goldenrod;
+  cursor: pointer;
+}
 /* 
 Generic Styling, for Desktops/Laptops 
 */
@@ -30,6 +67,10 @@ th {
 STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD
 */
 @media (max-width: 850px) {
+  /* space around h1 on small screen */
+  h1 {
+    margin: 8px;
+  }
   /* Force table to not be like tables anymore */
   table,
   thead,
@@ -174,5 +215,78 @@ img.crest {
 [data-field="squadMember"]:hover {
   font-size: larger;
 }
+
 /* @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) */
+/* animation test */
+.ifHackedExpell {
+  animation: expellanimation 1s ease 0s 3 normal forwards;
+  filter: grayscale(100%);
+}
+@keyframes expellanimation {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.ifHacked {
+  animation: hackanimation 1s ease 0s 2 normal forwards;
+  background: linear-gradient(
+    0deg,
+    rgba(97, 52, 52, 1) 0%,
+    rgba(237, 235, 230, 1) 100%
+  );
+  filter: grayscale(100%);
+}
+@keyframes hackanimation {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+/* list status */
+.listStatus {
+  animation: listanimation 3s ease 0s 2 normal forwards;
+}
+
+@keyframes listanimation {
+  0% {
+    animation-timing-function: ease-out;
+    transform: scale(1);
+    transform-origin: center center;
+  }
+
+  10% {
+    animation-timing-function: ease-in;
+    transform: scale(0.91);
+  }
+
+  17% {
+    animation-timing-function: ease-out;
+    transform: scale(0.98);
+  }
+
+  33% {
+    animation-timing-function: ease-in;
+    transform: scale(0.87);
+  }
+
+  45% {
+    animation-timing-function: ease-out;
+    transform: scale(1);
+  }
+}
