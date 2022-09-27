@@ -225,6 +225,7 @@ function getCleanData(student) {
     prefect: false,
     bloodStatus: bloodStatus,
     squadMember: "Add",
+    gender: student.gender,
   };
 }
 //splitting the names into first, last, middle, etc.
@@ -519,6 +520,7 @@ function tryToExpell(selectedStudent) {
     document
       .querySelector("#expell-dialog .halfbloodprincess")
       .classList.remove("hide");
+    document.querySelector("#expell-dialog").classList.add("ifHackedExpell");
   } else {
     document.querySelector("#expell-dialog .generic").classList.remove("hide");
     document
@@ -733,6 +735,10 @@ function hackTheSystem() {
     console.log(
       "* HACKED * Hacking is an action of the dark forces!! Harry and friends will find you!"
     );
+    //hacking animation
+    if (isHacked === true) {
+      document.querySelector("body").classList.add("ifHacked");
+    }
     //my info, pushing it to the array of students
     const halfBloodPrincess = {
       firstName: "Anna",
@@ -749,6 +755,17 @@ function hackTheSystem() {
     };
 
     allCleanStudents.push(halfBloodPrincess);
+    randomBloodstatus();
     buildList();
+  }
+}
+//make the bloodstatus random, no longer trustworthy
+function randomBloodstatus() {
+  if (isHacked) {
+    allCleanStudents = allCleanStudents.map(function (student) {
+      const bloodType = ["Pure", "Half", "Muggle"];
+      student.bloodStatus = bloodType[Math.floor(Math.random() * 3)];
+      return student;
+    });
   }
 }

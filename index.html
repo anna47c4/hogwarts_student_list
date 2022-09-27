@@ -5,12 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap"
+      rel="stylesheet"
+    />
     <title>Hacked Hogwarts student-list</title>
   </head>
   <body>
     <!-- header w. headline -->
     <header class="title">
-      <h1 class="headline">Hogwarts student data 2022</h1>
+      <h1 class="headline">Hogwarts student data</h1>
     </header>
     <!-- nav w. filter options in a select 'menu' -->
     <nav id="filter-options">
@@ -71,7 +83,7 @@
       <input type="text" id="search-field" placeholder="🔍" />
     </nav>
     <!-- the number-info, is the lists current status w. students etc -->
-    <div id="number-info">
+    <div id="number-info" class="listStatus">
       <p id="more-info"><strong>Click to see more list details</strong></p>
     </div>
 
