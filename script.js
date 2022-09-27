@@ -1,5 +1,5 @@
 "use strict";
-window.addEventListener("load", start);
+window.addEventListener("DOMContentLoaded", start);
 
 //empty array to store our student data from fetch
 let allStudents = [];
