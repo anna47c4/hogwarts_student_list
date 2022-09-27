@@ -20,7 +20,8 @@ let settings = {
 const houseFilter = document.getElementById("filter-type");
 const sortItems = document.querySelectorAll("[data-action=sort]");
 const searchInput = document.getElementById("search-field");
-
+//variable for hackedStatus
+let isHacked = false;
 //down here is the object prototype that I create the student obj. from
 const Student = {
   firstName: "",
@@ -45,6 +46,10 @@ function start() {
   document
     .querySelector("#number-info")
     .addEventListener("click", currentListDialog);
+  //click-event on hackTheSystem button
+  document
+    .getElementById("hack-button")
+    .addEventListener("click", hackTheSystem);
   fetchJSON();
 }
 
@@ -389,6 +394,18 @@ function addToSquad(student) {
       .querySelector("#squad-dialog .closebutton")
       .addEventListener("click", closeSquadDialog);
   }
+  //adding to squad only works for limited time, then hacking is taking over
+  if (isHacked) {
+    setTimeout(function () {
+      student.squadMember = "Add";
+
+      alert("I've gained control over the squadmembers, so sorry!😎");
+
+      buildList();
+    }, 5000);
+  } else {
+    return;
+  }
 
   function closeSquadDialog() {
     document.getElementById("squad-dialog").classList.add("hide");
@@ -497,6 +514,17 @@ function isExpelled(student) {
 function tryToExpell(selectedStudent) {
   document.querySelector("#expell-dialog").classList.remove("hide");
   /* document.querySelector("#expell-dialog").classList.add("hide"); */
+  if (selectedStudent.nickName === "Halfbloodprincess") {
+    document.querySelector("#expell-dialog .generic").classList.add("hide");
+    document
+      .querySelector("#expell-dialog .halfbloodprincess")
+      .classList.remove("hide");
+  } else {
+    document.querySelector("#expell-dialog .generic").classList.remove("hide");
+    document
+      .querySelector("#expell-dialog .halfbloodprincess")
+      .classList.add("hide");
+  }
 
   document
     .querySelector("#expellstudent")
@@ -693,5 +721,34 @@ function currentListDialog() {
     document
       .querySelector("#number-dialog .closebutton")
       .removeEventListener("click", closeListDialog);
+  }
+}
+function hackTheSystem() {
+  /* console.log("You're hacking the system.....!"); */
+  //hacking status is as set (false) so if tht's the case, just return
+  if (isHacked) {
+    return;
+  } else {
+    isHacked = true;
+    console.log(
+      "* HACKED * Hacking is an action of the dark forces!! Harry and friends will find you!"
+    );
+    //my info, pushing it to the array of students
+    const halfBloodPrincess = {
+      firstName: "Anna",
+      lastName: "Lester",
+      middleName: "Maria",
+      nickName: "Halfbloodprincess",
+      house: "Hufflepuff",
+      studentImg: "no photo",
+      gender: "Girl",
+      expelled: false,
+      prefect: false,
+      bloodStatus: "Half",
+      squadMember: "No",
+    };
+
+    allCleanStudents.push(halfBloodPrincess);
+    buildList();
   }
 }
