@@ -62,7 +62,7 @@ button:hover {
   font-weight: bold;
   padding: 8px;
   height: 50px;
-  background-image: url("/otherimg/hack_background.jpg");
+  background-image: url("otherimg/hack_background.jpg");
   border: 1.5px dotted red;
   margin-top: 8px;
 }
