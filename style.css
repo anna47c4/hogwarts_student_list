@@ -99,7 +99,7 @@ th {
   text-align: left;
 }
 /* 
-STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD
+STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD - code example found here: https://css-tricks.com/responsive-data-tables/
 */
 @media (max-width: 850px) {
   /* space around h1 on small screen */
@@ -178,7 +178,7 @@ STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD
   }
 }
 /* 
-END STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD
+END STYLING FOR MAKING THE TABLE RESPONSIVE FOR MOBILE/IPAD - code example found here: https://css-tricks.com/responsive-data-tables/
 */
 
 /* BASIC STYLING DIALOG BOXES */
@@ -251,9 +251,7 @@ img.crest {
   font-size: larger;
 }
 
-/* @media only screen and (max-width: 760px),
-  (min-device-width: 768px) and (max-device-width: 1024px) */
-/* animation test */
+/* Animations */
 .ifHackedExpell {
   animation: expellanimation 1s ease 0s 3 normal forwards;
   filter: grayscale(100%);
